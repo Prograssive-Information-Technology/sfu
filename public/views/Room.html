@@ -3,7 +3,7 @@
     <head>
         <!-- Title and Icon -->
 
-        <title id="title">MiroTalk SFU - Room Video Calls, Messaging and Screen Sharing.</title>
+        <title id="title">PiCollab - Video Conference Room, Messaging and Screen Sharing.</title>
         <link id="icon" rel="shortcut icon" href="../images/logo.svg" />
         <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.svg" />
 
@@ -16,25 +16,25 @@
         <meta
             id="description"
             name="description"
-            content="MiroTalk SFU powered by WebRTC and mediasoup, Real-time Simple Secure Fast video calls, messaging and screen sharing capabilities in the browser."
+            content="PiCollab powered by WebRTC and mediasoup, Real-time Simple Secure Fast video conferences, messaging and screen sharing capabilities in the browser."
         />
         <meta
             id="keywords"
             name="keywords"
-            content="webrtc, miro, mediasoup, mediasoup-client, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, webrtc p2p, webrtc sfu, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, sfu, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting"
+            content="webrtc, picollab, pitech, mediasoup, mediasoup-client, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, webrtc p2p, webrtc sfu, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, sfu, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting"
         />
 
         <!-- https://ogp.me -->
 
         <meta id="ogType" property="og:type" content="app-webrtc" />
-        <meta id="ogSiteName" property="og:site_name" content="MiroTalk SFU" />
-        <meta id="ogTitle" property="og:title" content="Click the link to make a call." />
+        <meta id="ogSiteName" property="og:site_name" content="PiCollab" />
+        <meta id="ogTitle" property="og:title" content="Click the link to start a conference." />
         <meta
             id="ogDescription"
             property="og:description"
-            content="MiroTalk SFU calling provides real-time video calls, messaging and screen sharing."
+            content="PiCollab provides real-time video conferences, messaging and screen sharing."
         />
-        <meta id="ogImage" property="og:image" content="https://sfu.mirotalk.com/images/mirotalksfu.png" />
+        <meta id="ogImage" property="og:image" content="#" />
 
         <!-- StyleSheet -->
         <link rel="stylesheet" href="../css/Room.css" />
@@ -1047,7 +1047,7 @@ access to use this app.
         <div id="remoteAudios"></div>
 
         <div id="sendFileDiv" class="fadein center">
-            <img id="imgShareSend" src="../images/share.png" alt="mirotalksfu-share-send" class="center-img" /><br />
+            <img id="imgShareSend" src="../images/share.png" alt="share-send" class="center-img" /><br />
             <div id="sendFileInfo"></div>
             <div id="sendFilePercentage"></div>
             <progress id="sendProgress" max="0" value="0"></progress>
@@ -1058,7 +1058,7 @@ access to use this app.
             <img
                 id="imgShareReceive"
                 src="../images/share.png"
-                alt="mirotalksfu-share-receive"
+                alt="share-receive"
                 class="center-img"
             /><br />
             <div id="receiveFileInfo"></div>
@@ -1283,12 +1283,7 @@ access to use this app.
                                     placeholder="Enter text here..."
                                     rows="1"
                                 ></textarea>
-                                <!-- <input 
-                                    id="chatMessage" 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="Enter text here..."
-                                > -->
+                     
                             </div>
                         </div>
 

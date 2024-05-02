@@ -28,7 +28,7 @@ class LocalStorage {
             moderator_screen_cant_share: false, // Everyone can't share screen
             moderator_chat_cant_privately: false, // Everyone can't chat privately, only Public chat allowed
             moderator_chat_cant_chatgpt: false, // Everyone can't chat with ChatGPT
-            moderator_disconnect_all_on_leave: false, // Disconnect all participants on leave room
+            moderator_disconnect_all_on_leave: true, // Disconnect all participants on leave room
             mic_auto_gain_control: false,
             mic_echo_cancellations: true,
             mic_noise_suppression: true,
@@ -40,10 +40,10 @@ class LocalStorage {
             video_fps: 0, // default 1280x768 30fps
             screen_fps: 3, // default 5fps
             broadcasting: false, // default false (one to many a/v streaming)
-            lobby: false, // default false
+            lobby: true, // ask to join meeting
             pitch_bar: true, // volume indicator
             sounds: true, // room notify sounds
-            host_only_recording: false, // presenter
+            host_only_recording: true, // presenter
             rec_prioritize_h264: false, // Prioritize h.264 with AAC or h.264 with Opus codecs over VP8 with Opus or VP9 with Opus codecs
             rec_server: false, // The recording will be stored on the server rather than locally
             video_obj_fit: 2, // cover
@@ -51,7 +51,7 @@ class LocalStorage {
             theme: 0, // dark
             theme_color: '#000000', // custom theme color
             theme_custom: false, // keep custom theme
-            buttons_bar: 0, // vertical
+            buttons_bar: 1, // horizontal
             pin_grid: 0, // vertical
         };
 

@@ -1049,7 +1049,7 @@ async function shareRoom(useNavigator = false) {
             <p style="background:transparent; color:rgb(8, 189, 89);">Join from your mobile device</p>
             <p style="background:transparent; color:white; font-family: Arial, Helvetica, sans-serif;">No need for apps, simply capture the QR code with your mobile camera Or Invite someone else to join by sending them the following URL</p>
             <p style="background:transparent; color:rgb(8, 189, 89);">${RoomURL}</p>`,
-            showDenyButton: true,
+            showDenyButton: false,
             showCancelButton: true,
             cancelButtonColor: 'red',
             denyButtonColor: 'green',
@@ -1105,7 +1105,7 @@ function shareRoomByEmail() {
         background: swalBackground,
         imageUrl: image.email,
         position: 'center',
-        title: 'Select a Date and Time',
+        title: 'Select a Date and Time for meeting',
         html: '<input type="text" id="datetimePicker" class="flatpickr" />',
         showCancelButton: true,
         confirmButtonText: 'OK',
@@ -1120,7 +1120,7 @@ function shareRoomByEmail() {
                     ? 'Password: ' + (room_password || rc.RoomPassword) + newLine
                     : '';
             const email = '';
-            const emailSubject = `Please join our ${BRAND.app.name} Video Chat Meeting`;
+            const emailSubject = `Please join our ${BRAND.app.name} Video Meeting`;
             const emailBody = `The meeting is scheduled at: ${newLine} DateTime: ${selectedDateTime} ${newLine}${roomPassword}Click to join: ${RoomURL} ${newLine}`;
             document.location = 'mailto:' + email + '?subject=' + emailSubject + '&body=' + emailBody;
         },
@@ -3914,14 +3914,14 @@ function showAbout() {
             Author: <a 
                 id="linkedin-button" 
                 data-umami-event="Linkedin button" 
-                href="https://www.linkedin.com/in/miroslav-pejic-976a07101/" target="_blank"> 
+                href="https://www.facebook.com/pitech24" target="_blank"> 
                 Miroslav Pejic
             </a>
             <br /><br />
             Email:<a 
                 id="email-button" 
                 data-umami-event="Email button" 
-                href="mailto:miroslav.pejic.85@gmail.com?subject=MiroTalk SFU info"> 
+                href="mailto:hello.pitech@gmail.com?subject=MiroTalk SFU info"> 
                 miroslav.pejic.85@gmail.com
             </a>
         </div>

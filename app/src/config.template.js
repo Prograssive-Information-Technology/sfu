@@ -239,7 +239,7 @@ module.exports = {
                 siteName: 'MiroTalk SFU',
                 title: 'Click the link to make a call.',
                 description: 'MiroTalk SFU calling provides real-time video calls, messaging and screen sharing.',
-                image: 'https://sfu.mirotalk.com/images/mirotalksfu.png',
+                image: '#',
             },
             html: {
                 features: true,

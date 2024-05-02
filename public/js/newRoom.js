@@ -141,7 +141,7 @@ document.getElementById('roomName').value = '';
 // ####################################################
 
 let i = 0;
-let txt = num + adjective + noun;
+let txt = 'Collab' + adjective + noun + num;
 let speed = 100;
 
 function typeWriter() {
