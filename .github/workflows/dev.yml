@@ -1,0 +1,70 @@
+name: PiCollab CI
+
+on:
+  push:
+    branches: [staging]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate .env
+        run: |
+          envsubst "`printf '${%s} ' $(sh -c "env|cut -d'=' -f1")`" < ./app/src/config.template.js > ./app/src/config.js
+          echo "$(cat ./app/src/config.js)"
+        
+
+      - name: Logging to docker
+        run: docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/picollab-stg:latest
+
+      - name: Docker Push
+        run: docker push ${{secrets.DOCKER_USER}}/picollab-stg:latest
+
+  Deploy:
+    needs: Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Deploy To Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "Logging to docker hub"
+            docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}} 
+
+            echo "Stopping previous build"
+            docker stop picollab-stg
+
+            echo "Removing previous build"
+            docker rm picollab-stg
+
+            echo "Removing old image from local"
+            docker rmi ${{secrets.DOCKER_USER}}/picollab-stg:latest
+
+            echo "Pulling latest image from docker hub"
+            docker pull ${{secrets.DOCKER_USER}}/picollab-stg:latest
+
+            echo "Starting latest build"
+            docker run -e NODE_ENV=staging -e PORT=3010 -d \
+              --restart always --network host \
+              -dit --name picollab-stg \
+              -p 3010:3010 \
+              -v /var/www/uploads:/uploads \
+              --name picollab-stg \
+              ${{secrets.DOCKER_USER}}/picollab-stg:latest
+
+            echo "Deploy Done"
