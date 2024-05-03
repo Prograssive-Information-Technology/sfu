@@ -191,6 +191,7 @@ $ cd mirotalksfu
 # Copy app/src/config.template.js in app/src/config.js and edit it if needed
 $ cp app/src/config.template.js app/src/config.js
 # Install dependencies - be patient, the first time will take a few minutes, in the meantime have a good coffee ;)
+$ npm rebuild mediasoup
 $ npm install
 # Start the server
 $ npm start
