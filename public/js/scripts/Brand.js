@@ -15,6 +15,7 @@ const ogSiteName = document.getElementById('ogSiteName');
 const ogTitle = document.getElementById('ogTitle');
 const ogDescription = document.getElementById('ogDescription');
 const ogImage = document.getElementById('ogImage');
+const ogUrl = document.getElementById('ogUrl');
 
 const appTitle = document.getElementById('appTitle');
 const appDescription = document.getElementById('appDescription');
@@ -32,7 +33,7 @@ const footer = document.getElementById('footer');
 let BRAND = {
     app: {
         name: 'PiCollab',
-        title: 'PiCollab<br />Free browser based Real-time video conference.<br />Simple, Secure, Fast.',
+        title: 'PiCollab<br />Free browser based Real-time video conferences.<br />Simple, Secure, Fast.',
         description:
             'Start your next video conference with a single click. No download, plug-in, or login is required. Just get straight to talking, messaging, and sharing your screen.',
     },
@@ -43,25 +44,26 @@ let BRAND = {
     },
     meta: {
         description:
-            'PiCollab powered by WebRTC and mediasoup, Real-time Simple Secure Fast video conferences, messaging and screen sharing capabilities in the browser.',
+            'PiCollab powered by WebRTC and mediasoup, Real-time Simple Secure Fast video calls, messaging and screen sharing capabilities in the browser.',
         keywords:
-            'webrtc, collab, pitech, conference, mediasoup, mediasoup-client, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, webrtc p2p, webrtc sfu, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, sfu, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting',
+            'webrtc, picollab, pitech, mediasoup, mediasoup-client, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, webrtc p2p, webrtc sfu, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, sfu, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting',
     },
     og: {
         type: 'app-webrtc',
         siteName: 'PiCollab',
         title: 'Click the link to start a conference.',
-        description: 'PiCollab provides real-time video conferences, messaging and screen sharing.',
+        description: 'PiCollab provides real-time video calls, messaging and screen sharing.',
         image: '#',
+        url: '#',
     },
     html: {
         features: true,
-        teams: true,
-        tryEasier: true,
-        poweredBy: true,
-        sponsors: true,
-        advertisers: true,
-        footer: true,
+        teams: false,
+        tryEasier: false,
+        poweredBy: false,
+        sponsors: false,
+        advertisers: false,
+        footer: false,
     },
     //...
 };
@@ -177,6 +179,9 @@ function customizeOpenGraph() {
     }
     if (ogImage) {
         ogImage.content = BRAND.og.image;
+    }
+    if (ogUrl) {
+        ogUrl.content = BRAND.og.url;
     }
 }
 

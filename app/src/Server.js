@@ -17,6 +17,7 @@ dependencies: {
     cors                    : https://www.npmjs.com/package/cors
     crypto-js               : https://www.npmjs.com/package/crypto-js
     express                 : https://www.npmjs.com/package/express
+    express-openid-connect  : https://www.npmjs.com/package/express-openid-connect
     httpolyglot             : https://www.npmjs.com/package/httpolyglot
     jsonwebtoken            : https://www.npmjs.com/package/jsonwebtoken
     mediasoup               : https://www.npmjs.com/package/mediasoup
@@ -41,11 +42,12 @@ dependencies: {
  * @license For commercial or closed source, contact us at license.mirotalk@gmail.com or purchase directly via CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-sfu-webrtc-realtime-video-conferences/40769970
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.4.25
+ * @version 1.4.29
  *
  */
 
 const express = require('express');
+const { auth, requiresAuth } = require('express-openid-connect');
 const cors = require('cors');
 const compression = require('compression');
 const https = require('httpolyglot');
@@ -171,6 +173,9 @@ if (config.chatGPT.enabled) {
     }
 }
 
+// OpenID Connect
+const OIDC = config.oidc ? config.oidc : { enabled: false };
+
 // directory
 const dir = {
     public: path.join(__dirname, '../../', 'public'),
@@ -247,6 +252,15 @@ if (!announcedAddress && IPv4 === '0.0.0.0') {
     startServer();
 }
 
+// Custom middleware function for OIDC authentication
+function OIDCAuth(req, res, next) {
+    if (OIDC.enabled) {
+        requiresAuth()(req, res, next); // Apply requiresAuth() middleware conditionally
+    } else {
+        next();
+    }
+}
+
 function startServer() {
     // Start the app
     app.use(cors(corsOptions));
@@ -298,6 +312,35 @@ function startServer() {
         }
     });
 
+    // OpenID Connect
+    if (OIDC.enabled) {
+        try {
+            app.use(auth(OIDC.config));
+        } catch (err) {
+            log.error(err);
+            process.exit(1);
+        }
+    }
+
+    // Route to display user information
+    app.get('/profile', OIDCAuth, (req, res) => {
+        if (OIDC.enabled) {
+            return res.json(req.oidc.user); // Send user information as JSON
+        }
+        res.sendFile(views.notFound);
+    });
+
+    // Authentication Callback Route
+    app.get('/auth/callback', (req, res, next) => {
+        next(); // Let express-openid-connect handle this route
+    });
+
+    // Logout Route
+    app.get('/logout', (req, res) => {
+        if (OIDC.enabled) req.logout();
+        res.redirect('/'); // Redirect to the home page after logout
+    });
+
     // UI buttons configuration
     app.get('/config', (req, res) => {
         res.status(200).json({ message: config.ui ? config.ui.buttons : false });
@@ -309,7 +352,7 @@ function startServer() {
     });
 
     // main page
-    app.get(['/'], (req, res) => {
+    app.get(['/'], OIDCAuth, (req, res) => {
         //log.debug('/ - hostCfg ----->', hostCfg);
         if ((hostCfg.protected && !hostCfg.authenticated) || authHost.isRoomActive()) {
             const ip = getIP(req);
@@ -326,7 +369,7 @@ function startServer() {
     });
 
     // set new room name and join
-    app.get(['/newroom'], (req, res) => {
+    app.get(['/newroom'], OIDCAuth, (req, res) => {
         //log.info('/newroom - hostCfg ----->', hostCfg);
 
         if ((hostCfg.protected && !hostCfg.authenticated) || authHost.isRoomActive()) {
@@ -344,7 +387,7 @@ function startServer() {
     });
 
     // Handle Direct join room with params
-    app.get('/join/', async (req, res) => {
+    app.get('/join/', OIDCAuth, async (req, res) => {
         if (Object.keys(req.query).length > 0) {
             //log.debug('/join/params - hostCfg ----->', hostCfg);
 
@@ -403,7 +446,7 @@ function startServer() {
     });
 
     // join room by id
-    app.get('/join/:roomId', (req, res) => {
+    app.get('/join/:roomId', OIDCAuth, (req, res) => {
         //log.debug('/join/room - hostCfg ----->', hostCfg);
         if (hostCfg.authenticated || authHost.isRoomActive()) {
             res.sendFile(views.room);
@@ -733,6 +776,7 @@ function startServer() {
             chatGPT_enabled: config.chatGPT.enabled,
             configUI: config.ui,
             serverRec: config?.server?.recording,
+            oidc: OIDC.enabled ? OIDC : false,
         };
     }
 
@@ -1189,9 +1233,10 @@ function startServer() {
                     producer_id: producer_id,
                 });
 
-                // add & monitor producer audio level
+                // add & monitor producer audio level and active speaker
                 if (kind === 'audio') {
                     room.addProducerToAudioLevelObserver({ producerId: producer_id });
+                    room.addProducerToActiveSpeakerObserver({ producerId: producer_id });
                 }
 
                 //log.debug('Producer transport callback', { callback: producer_id });
@@ -1269,13 +1314,13 @@ function startServer() {
                 return callback({ error: `producer with id "${producer_id}" not found` });
             }
 
-            log.debug('Producer paused', { peer_name: peer_name, producer_id: producer_id });
-
             try {
                 await producer.pause();
             } catch (error) {
                 return callback({ error: error.message });
             }
+
+            log.debug('Producer paused', { peer_name: peer_name, producer_id: producer_id });
 
             callback('successfully');
         });
@@ -1301,13 +1346,13 @@ function startServer() {
                 return callback({ error: `producer with id "${producer_id}" not found` });
             }
 
-            log.debug('Producer resumed', { peer_name: peer_name, producer_id: producer_id });
-
             try {
                 await producer.resume();
             } catch (error) {
                 return callback({ error: error.message });
             }
+
+            log.debug('Producer resumed', { peer_name: peer_name, producer_id: producer_id });
 
             callback('successfully');
         });
@@ -1771,7 +1816,7 @@ function startServer() {
 
             const peer = room.getPeer(socket.id);
 
-            const { peer_name, peer_uuid } = peer;
+            const { peer_name, peer_uuid } = peer || {};
 
             const isPresenter = await isPeerPresenter(socket.room_id, socket.id, peer_name, peer_uuid);
 
@@ -1810,7 +1855,7 @@ function startServer() {
 
             const peer = room.getPeer(socket.id);
 
-            const { peer_name, peer_uuid } = peer;
+            const { peer_name, peer_uuid } = peer || {};
 
             const isPresenter = await isPeerPresenter(socket.room_id, socket.id, peer_name, peer_uuid);
 
