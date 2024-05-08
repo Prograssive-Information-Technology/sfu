@@ -72,7 +72,7 @@ module.exports = {
     },
     api: {
         // Default secret key for app/api
-        keySecret: 'mirotalksfu_default_secret',
+        keySecret: 'sfu_default_secret',
         // Define which endpoints are allowed
         allowed: {
             meetings: false,
@@ -88,7 +88,7 @@ module.exports = {
             JWT https://jwt.io/
             Securely manages credentials for host configurations and user authentication, enhancing security and streamlining processes.
          */
-        key: 'mirotalksfu_jwt_secret',
+        key: 'sfu_jwt_secret',
         exp: '1h',
     },
     host: {
@@ -101,7 +101,7 @@ module.exports = {
         user_auth: false,
         users_from_db: false, // if true ensure that api.token is also set to true.
         users_api_endpoint: 'http://localhost:9000/api/v1/user/isAuth',
-        users_api_secret_key: 'mirotalkweb_default_secret',
+        users_api_secret_key: 'web_default_secret',
         users: [
             {
                 username: 'username',

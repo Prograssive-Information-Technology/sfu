@@ -72,7 +72,7 @@ module.exports = {
     },
     api: {
         // Default secret key for app/api
-        keySecret: 'mirotalksfu_default_secret',
+        keySecret: 'sfu_default_secret',
         // Define which endpoints are allowed
         allowed: {
             meetings: false,
@@ -88,7 +88,7 @@ module.exports = {
             JWT https://jwt.io/
             Securely manages credentials for host configurations and user authentication, enhancing security and streamlining processes.
          */
-        key: 'mirotalksfu_jwt_secret',
+        key: 'sfu_jwt_secret',
         exp: '1h',
     },
     oidc: {
@@ -107,7 +107,7 @@ module.exports = {
             baseURL: `http://localhost:${process.env.PORT ? process.env.PORT : 3010}`, // https://sfu.mirotalk.com
             clientID: 'clientID',
             clientSecret: 'clientSecret',
-            secret: 'mirotalksfu-oidc-secret',
+            secret: 'sfu-oidc-secret',
             authorizationParams: {
                 response_type: 'code',
                 scope: 'openid profile email',
@@ -130,9 +130,9 @@ module.exports = {
         protected: false,
         user_auth: false,
         users_from_db: false, // if true ensure that api.token is also set to true.
-        //users_api_endpoint: 'http://localhost:9000/api/v1/user/isAuth',
-        users_api_endpoint: 'https://webrtc.mirotalk.com/api/v1/user/isAuth',
-        users_api_secret_key: 'mirotalkweb_default_secret',
+        users_api_endpoint: 'http://localhost:9000/api/v1/user/isAuth',
+        // users_api_endpoint: 'https://webrtc.mirotalk.com/api/v1/user/isAuth',
+        users_api_secret_key: 'web_default_secret',
         users: [
             {
                 username: 'username',
@@ -180,7 +180,7 @@ module.exports = {
         port: 587,
         username: 'your_username',
         password: 'your_password',
-        sendTo: 'sfu.mirotalk@gmail.com',
+        sendTo: 'hello.pitech@gmail.com',
     },
     ngrok: {
         /* 
@@ -244,46 +244,45 @@ module.exports = {
     },
     ui: {
         /*
-            Customize your MiroTalk instance
+            Customize your instance
         */
-        brand: {
-            app: {
-                name: 'MiroTalk SFU',
-                title: 'MiroTalk SFU<br />Free browser based Real-time video calls.<br />Simple, Secure, Fast.',
-                description:
-                    'Start your next video call with a single click. No download, plug-in, or login is required. Just get straight to talking, messaging, and sharing your screen.',
+            brand: {
+                app: {
+                    name: 'PiCollab',
+                    title: 'PiCollab <br/>Free browser based Real-time video conference.<br />Simple, Secure, Fast.',
+                    description:
+                        'Start your next video conference with a single click. No download, plug-in, or login is required. Just get straight to talking, messaging, and sharing your screen.',
+                },
+                site: {
+                    title: 'PiCollab, Free Video Conferences, Messaging and Screen Sharing',
+                    icon: '../images/logo.svg',
+                    appleTouchIcon: '../images/logo.svg',
+                },
+                meta: {
+                    description:
+                        'PiCollab powered by WebRTC and mediasoup, Real-time Simple Secure Fast video conferences, messaging and screen sharing capabilities in the browser.',
+                    keywords:
+                        'webrtc, picollab, pitech, mediasoup, mediasoup-client, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, webrtc p2p, webrtc sfu, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, sfu, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting',
+                },
+                og: {
+                    type: 'app-webrtc',
+                    siteName: 'PiCollab',
+                    title: 'Click the link to start a meeting.',
+                    description: 'PiCollab provides real-time video conferences, messaging and screen sharing.',
+                    image: '#',
+                },
+                html: {
+                    features: true,
+                    teams: false, // Please keep me always visible, thank you!
+                    tryEasier: true,
+                    poweredBy: false,
+                    sponsors: false,
+                    advertisers: false,
+                    footer: false,
+                },
+                //...
             },
-            site: {
-                title: 'MiroTalk SFU, Free Video Calls, Messaging and Screen Sharing',
-                icon: '../images/logo.svg',
-                appleTouchIcon: '../images/logo.svg',
-            },
-            meta: {
-                description:
-                    'MiroTalk SFU powered by WebRTC and mediasoup, Real-time Simple Secure Fast video calls, messaging and screen sharing capabilities in the browser.',
-                keywords:
-                    'webrtc, miro, mediasoup, mediasoup-client, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, webrtc p2p, webrtc sfu, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, sfu, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting',
-            },
-            og: {
-                type: 'app-webrtc',
-                siteName: 'MiroTalk SFU',
-                title: 'Click the link to make a call.',
-                description: 'MiroTalk SFU calling provides real-time video calls, messaging and screen sharing.',
-                image: '#',
-                url: '#',
-            },
-            html: {
-                features: true,
-                teams: true, // Please keep me always visible, thank you!
-                tryEasier: true,
-                poweredBy: true,
-                sponsors: true,
-                advertisers: true,
-                footer: true,
-            },
-            //...
-        },
-        /*
+            /*
             Toggle the visibility of specific HTML elements within the room
         */
         buttons: {
@@ -377,7 +376,7 @@ module.exports = {
             We use our Self-hosted Umami to track aggregated usage statistics in order to improve our service.
         */
         enabled: true,
-        src: 'https://stats.mirotalk.com/script.js',
+        src: 'https://stats.collab.com/script.js',
         id: '41d26670-f275-45bb-af82-3ce91fe57756',
     },
     mediasoup: {

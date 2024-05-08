@@ -1,5 +1,5 @@
 {
-    "name": "mirotalksfu",
+    "name": "picollab",
     "version": "1.4.29",
     "description": "WebRTC SFU browser-based video calls",
     "main": "Server.js",
@@ -20,10 +20,6 @@
         "docker-start": "docker start mirotalksfu",
         "docker-stop": "docker stop mirotalksfu"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/miroslavpejic85/mirotalksfu"
-    },
     "keywords": [
         "webrtc",
         "socket.io",
@@ -35,7 +31,7 @@
         "openai",
         "chatgpt"
     ],
-    "author": "Miroslav Pejic",
+    "author": "PiTech",
     "license": "AGPL-3.0",
     "engines": {
         "node": ">=18"

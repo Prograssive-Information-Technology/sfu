@@ -9,7 +9,7 @@ The `API_KEY` is defined in the `app/src/config.js`, change it with your own.
 ```js
 api: {
     // app/api
-    keySecret: 'mirotalksfu_default_secret',
+    keySecret: 'sfu_default_secret',
 }
 ```
 
