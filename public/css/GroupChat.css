@@ -354,12 +354,3 @@ input[type='text'] {
 .form-check-input {
     cursor: pointer;
 }
-
-.hr {
-    border: 0;
-    display: block;
-    height: 1px;
-    background: #000000;
-    margin-top: 0px;
-    margin-bottom: 10px;
-}
